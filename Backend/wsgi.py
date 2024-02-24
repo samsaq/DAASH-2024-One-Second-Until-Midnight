@@ -4,23 +4,31 @@ from surrealdb import Surreal
 app = flask.Flask(__name__)
 flask_cors.CORS(app)
 
+debug = True
+
 
 # testing the connection to the local db
 async def main():
     """Example of how to use the SurrealDB client."""
     async with Surreal("ws://localhost:8000/rpc") as db:
         # await db.signin({"user": "root", "pass": "root"})
-        await db.use("test", "test")
+        # await db.use("test", "test")
         await db.create(
-            "person",
+            "intersection:1",
             {
-                "user": "me",
-                "pass": "safe",
-                "marketing": True,
-                "tags": ["python", "documentation"],
+                "throughput": 300,  # per minute
+                "active": True,
+            },
+            "intersection:2",
+            {
+                "throughput": 300,  # per minute
+                "active": True,
             },
         )
-        print(await db.select("person"))
+        print(await db.select("intersection"))
+        await db.query(
+            "RELATE intersection:1->road->intersection:2 SET carsOnRoad=[1,2,3,4,5], reservations=[(6, 13:30),(7, 13:35),(8, 13:35),(9, 13:40),(10,13:40)] active=True"
+        )
         print(
             await db.update(
                 "person",
@@ -67,6 +75,5 @@ async def main():
 
 
 if __name__ == "__main__":
-    import asyncio
-
-    asyncio.run(main())
+    # asyncio.run(main())
+    app.run(debug=debug)
