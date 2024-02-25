@@ -12,6 +12,7 @@ async def main():
             "infrastructure:powerplant",
             {
                 "throughput": 300,  # kwh
+                "location": "Seattle",  # city for the node
                 "status": "Operational",  # Operational (Green), Disrupted (Yellow), Down (Red)
             },
         )
@@ -19,6 +20,15 @@ async def main():
             "infrastructure:hospital",
             {
                 "capacity": 1500,  # patients
+                "location": "Seattle",  # city for the node
+                "status": "Disrupted",  # Operational (Green), Disrupted (Yellow), Down (Red)
+            },
+        )
+        await db.create(
+            "infrastructure:airport",
+            {
+                "throughput": 300,  # passengers per hour
+                "location": "Seattle",  # city for the node
                 "status": "Operational",  # Operational (Green), Disrupted (Yellow), Down (Red)
             },
         )
@@ -27,8 +37,11 @@ async def main():
 
         print(
             await db.query(
-                "RELATE infrastructure:hospital->depends->infrastructure:powerplant SET powerNeed=100"
+                "RELATE infrastructure:hospital->depends->infrastructure:powerplant SET required=true, powerNeed=100"
             )
+        )
+        await db.query(
+            "RELATE infrastructure:hospital->depends->infrastructure:airport SET required=true"
         )
 
 
