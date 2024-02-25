@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { Link } from "@nextui-org/link";
 import { Snippet } from "@nextui-org/snippet";
 import { Code } from "@nextui-org/code";
@@ -9,8 +9,17 @@ import { GithubIcon } from "@/components/icons";
 import { Input } from "@nextui-org/input";
 import { SearchIcon } from "@/components/icons";
 import { Kbd } from "@nextui-org/kbd";
+import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
+
+  function handleCitySubmit(city: string) {
+    if (city == "Seattle") {
+      router.push("/seattle");
+    }
+  }
 
   return (
     <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
@@ -60,6 +69,11 @@ export default function Home() {
             }
             labelPlacement="outside"
             placeholder="Search a city here..."
+            onKeyDown={(event) => {
+              if (event.key === "Enter") {
+                handleCitySubmit(event.currentTarget.value);
+              }
+            }}
             startContent={
               <SearchIcon className="text-base text-default-400 pointer-events-none flex-shrink-0" />
             }
