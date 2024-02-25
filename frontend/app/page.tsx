@@ -10,23 +10,7 @@ import { Input } from "@nextui-org/input";
 import { SearchIcon } from "@/components/icons";
 import { Kbd } from "@nextui-org/kbd";
 
-
 export default function Home() {
-  const [infraState, setInfraState] = useState([["", ""]]);
-
-  useEffect(() => {
-    fetch("http://localhost:5000/status/Seattle")
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then(data => {
-      setInfraState(data);
-    })
-    .catch(error => console.error('Error:', error));
-  }, []);
 
   return (
     <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
@@ -82,9 +66,6 @@ export default function Home() {
             type="search"
           />
         </span>
-      </div>
-      <div className="flex">
-        {infraState && <InfraStatus infra={infraState as [string, string][]} />}
       </div>
     </section>
   );
