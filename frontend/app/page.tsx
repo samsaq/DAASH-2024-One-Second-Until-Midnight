@@ -5,6 +5,7 @@ import { button as buttonStyles } from "@nextui-org/theme";
 import { siteConfig } from "@/config/site";
 import { title, subtitle } from "@/components/primitives";
 import { GithubIcon } from "@/components/icons";
+import { Input } from "@nextui-org/input";
 
 import { InfraStatus } from "@components/infraStatus";
 
@@ -48,7 +49,12 @@ export default function Home() {
       <div className="mt-8">
         <Snippet hideSymbol hideCopyButton variant="flat">
           <span>
-            Get started by editing <Code color="primary">app/page.tsx</Code>
+            <Input
+              type="search"
+              variant="underlined"
+              label="City"
+              placeholder="Seattle"
+            />
           </span>
         </Snippet>
       </div>

@@ -50,7 +50,7 @@ export const Navbar = () => {
 	); */
 
   return (
-    <NextUINavbar maxWidth="xl" position="sticky">
+    <NextUINavbar maxWidth="xl" position="sticky" className="bg-transparent">
       <NavbarContent
         className="hidden sm:flex basis-1/5 sm:basis-full"
         justify="end"
