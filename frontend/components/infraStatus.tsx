@@ -18,7 +18,7 @@ export default function InfraStatus({ infra }: City) {
           title={
             <div style={{ display: 'flex', alignItems: 'center' }}>
               {infraName}
-              {status === "operational" &&
+              {status === "Operational" &&
                 <span style={{
                   height: '10px',
                   width: '10px',
