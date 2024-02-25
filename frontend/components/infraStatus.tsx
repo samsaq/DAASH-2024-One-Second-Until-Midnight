@@ -1,7 +1,7 @@
-'use client'
+"use client";
 import React from "react";
 import { Accordion, AccordionItem } from "@nextui-org/react";
-
+import Pulse from "./pulse";
 
 interface City {
   infra: [string, string][];
@@ -16,28 +16,11 @@ export default function InfraStatus({ infra }: City) {
           aria-label={infraName}
           subtitle="Press to expand"
           title={
-            <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              {status === "Operational" && <Pulse color="Green" />}
+              {status === "Disrupted" && <Pulse color="Yellow" />}
+              {status === "Down" && <Pulse color="Red" />}
               {infraName}
-              {status === "Operational" &&
-                <span style={{
-                  height: '10px',
-                  width: '10px',
-                  backgroundColor: 'green',
-                  borderRadius: '50%',
-                  marginLeft: '10px'
-                }}
-                />
-              }
-              {status === "Disrupted" &&
-                <span style={{
-                  height: '10px',
-                  width: '10px',
-                  backgroundColor: 'yellow',
-                  borderRadius: '50%',
-                  marginLeft: '10px'
-                }}
-                />
-              }
             </div>
           }
         >

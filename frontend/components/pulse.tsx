@@ -12,7 +12,7 @@ export default function Pulse({ color }: pulseProps) {
     bgColor = "bg-red-400";
   }
   return (
-    <span className="relative flex h-3 w-3">
+    <span className="relative flex h-3 w-3 mr-2">
       <span
         className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${bgColor}`}
       ></span>
