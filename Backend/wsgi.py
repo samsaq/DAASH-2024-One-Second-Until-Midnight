@@ -13,7 +13,8 @@ async def getNodeStatus(node):
     async with Surreal("ws://localhost:8000/rpc") as db:
         await db.use("infrastructure", "infrastructure")
         result = await db.select(f"infrastructure:{node}")
-        if result is None or len(result[0]["result"]) == 0:
+        # check if result.id exists, if it does, we have a node, if not, we don't
+        if result is None or "id" not in result.keys():
             return {"error": "Node not found"}, 404
         else:
             result = await private_updateStatus(node)
@@ -49,7 +50,7 @@ async def getDependencies(node):
         result = await db.query(
             f"SELECT ->depends->infrastructure FROM infrastructure WHERE id='{node}'"
         )
-        if result is None or len(result[0]["result"]) == 0:
+        if result is None:
             return {"error": "Node not found"}, 404
         else:
             try:
@@ -117,7 +118,7 @@ async def private_updateStatus(node):
 async def recursiveCheck(node, db):
     # get the status of the node
     status = await db.select(f"infrastructure:{node}")
-    if status is None or len(status[0]["result"]) == 0:
+    if status is None or "id" not in status.keys():
         return "error: Node not found"
     else:
         status = status["status"]
@@ -184,15 +185,15 @@ async def private_getDependencies(node, db):
 
 # testing the connection to the local db
 async def debug():
-    # result = await getNodeStatus("powerplant")
+    # result = await getNodeStatus("hospital")
     # print(result)
-    # result = await getCityStatus("Seattle")
+    result = await getCityStatus("Seattle")
     # print(result)
     # result = await getDependencies("Hospital")
     # print(result)
     # result = await private_updateStatus("hospital")
     # print(result)
-    pass
+    # pass
 
 
 if __name__ == "__main__":
