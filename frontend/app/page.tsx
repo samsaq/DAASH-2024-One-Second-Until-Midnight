@@ -1,3 +1,4 @@
+'use client'
 import { Link } from "@nextui-org/link";
 import { Snippet } from "@nextui-org/snippet";
 import { Code } from "@nextui-org/code";
@@ -6,10 +7,27 @@ import { siteConfig } from "@/config/site";
 import { title, subtitle } from "@/components/primitives";
 import { GithubIcon } from "@/components/icons";
 import { Input } from "@nextui-org/input";
+import { useEffect, useState } from "react";
 
-import { InfraStatus } from "@components/infraStatus";
+import InfraStatus from "@/components/infraStatus";
 
 export default function Home() {
+  const [infraState, setInfraState] = useState([["", ""]]);
+
+  useEffect(() => {
+    fetch("http://localhost:5000/status/Seattle")
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      setInfraState(data);
+    })
+    .catch(error => console.error('Error:', error));
+  }, []);
+
   return (
     <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
       <div className="inline-block max-w-lg text-center justify-center">
@@ -58,8 +76,9 @@ export default function Home() {
           </span>
         </Snippet>
       </div>
-
-      <InfraStatus />
+      <div className="flex">
+        {infraState && <InfraStatus infra={infraState as [string, string][]} />}
+      </div>
     </section>
   );
 }
