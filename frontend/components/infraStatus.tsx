@@ -14,7 +14,7 @@ export default function InfraStatus({ infra }: City) {
       <Accordion key={i}>
         <AccordionItem
           aria-label={infraName}
-          subtitle="Press to expand"
+          subtitle="Press to see dependencies"
           title={
             <div style={{ display: "flex", alignItems: "center" }}>
               {status === "Operational" && <Pulse color="Green" />}
@@ -24,7 +24,14 @@ export default function InfraStatus({ infra }: City) {
             </div>
           }
         >
-          {"dependency: infrastructure status"}
+          {infraName == "hospital" ? (
+            <ul>
+              <li>airport</li>
+              <li>powerplant</li>
+            </ul>
+          ) : (
+            "None"
+          )}
         </AccordionItem>
       </Accordion>
     );
